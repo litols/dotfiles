@@ -195,9 +195,6 @@ alias mv='mv -i'
 
 alias mkdir='mkdir -p'
 
-alias mysql='/Applications/MAMP/Library/bin/mysql'
-alias mysqldump='/Applications/MAMP/Library/bin/mysqldump'
-
 # sudo の後のコマンドでエイリアスを有効にする
 alias sudo='sudo '
 
