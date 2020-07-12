@@ -7,10 +7,9 @@
 - link:
     # zsh
     ~/.zshrc: zsh/.zshrc
-    ~/.zprofile: zsh/.zprofile
     # tmux
-    ~/.tmux.conf: tmux/tmux.conf
-    ~/.tmux: tmux/
+    ~/.tmux.conf: tmux/.tmux.conf
+    ~/.tmux/plugins/tpm: tmux/.tmux/plugins/tpm
     # vim
     ~/.vimrc: vim/.vimrc
 
