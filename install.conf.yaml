@@ -4,10 +4,6 @@
 
 - clean: ['~']
 
-- create:
-    - ~/workspace
-    - ~/tmux/plguin
-
 - link:
     # zsh
     ~/.zshrc: zsh/.zshrc
@@ -16,6 +12,9 @@
     ~/.tmux/plugins/tpm: tmux/.tmux/plugins/tpm
     # vim
     ~/.vimrc: vim/.vimrc
+
+- create:
+    - ~/workspace
 
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
