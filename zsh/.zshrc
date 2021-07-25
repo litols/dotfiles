@@ -116,6 +116,45 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 # ps コマンドのプロセス名補完
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 
+# fzf completion
+zinit ice id-as"fzf-bin" as"program" wait lucid from"gh-r" sbin"**/fzf"
+zinit light junegunn/fzf
+
+zinit ice wait lucid depth"1" as"null" sbin"bin/fzf-tmux" \
+      cp"man/man.1/fzf* -> $ZPFX/share/man/man1" atpull'%atclone' \
+      src'shell/key-bindings.zsh'
+zinit light junegunn/fzf
+
+zinit ice wait lucid atload"zicompinit; zicdreplay" blockf
+zinit light Aloxaf/fzf-tab
+
+zstyle ':completion:*:descriptions' format '[%d]'
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:git-checkout:*' sort false
+zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm -w -w'
+zstyle ':fzf-tab:*' switch-group ',' '.'
+zstyle ':fzf-tab:complete:(cd|ls|exa|bat|cat|emacs|nano|vi|vim|less|mv|cp):*' fzf-preview 'exa -1 --color=always $realpath'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
+       '[[ $group == "[process ID]" ]] &&
+        if [[ $OSTYPE == darwin* ]]; then
+           ps -p $word -o comm="" -w -w
+        elif [[ $OSTYPE == linux* ]]; then
+           ps --pid=$word -o cmd --no-headers -w -w
+        fi'
+zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags '--preview-window=down:3:wrap'
+# query-string:
+# Possible values:
+#    input: use user's input as query string, just like zsh's default behavior
+#    prefix: use the longest common prefix for all candidates as the query string
+#    first: just a flag. If set, the first valid query string will be used
+#    longest: another flag. If set, the longest valid query string will be used
+zstyle ':fzf-tab:*' query-string prefix input first
+
+export FZF_DEFAULT_COMMAND="fd --type f --hidden --follow --exclude .git || git ls-tree -r --name-only HEAD || rg --hidden --files || find ."
+export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || cat {} || tree -NC {}) 2> /dev/null | head -200'"
+export FZF_CTRL_R_OPTS="--preview 'echo {}' --preview-window down:3:hidden:wrap --bind '?:toggle-preview' --exact"
+export FZF_ALT_C_OPTS="--preview 'tree -NC {} | head -200'"
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border --ansi'
 
 ########################################
 # vcs_info
@@ -225,11 +264,14 @@ export PIPENV_VENV_IN_PROJECT=true
 case ${OSTYPE} in
     darwin*)
         #Mac用の設定
+        export LANG=ja_JP.UTF-8
+        export LC_ALL=ja_JP.UTF-8
         export CLICOLOR=1
         alias ls='ls -G -F'
         ;;
     linux*)
         #Linux用の設定
+        alias ls='ls -G -F'
         ;;
 esac
 
