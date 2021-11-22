@@ -12,6 +12,8 @@
     ~/.tmux/plugins/tpm: tmux/.tmux/plugins/tpm
     # vim
     ~/.vimrc: vim/.vimrc
+    # asdf
+    ~/.asdfrc: misc/asdf/.asdfrc
 
 - create:
     - ~/workspace

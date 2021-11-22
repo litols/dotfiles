@@ -220,6 +220,9 @@ fi
 # init pyenv (use project directory)
 export PIPENV_VENV_IN_PROJECT=true
 
+# init asdf
+[[ (-f $(brew --prefix asdf)/libexec/asdf.sh)]] && eval ". $(brew --prefix asdf)/libexec/asdf.sh"
+
 ########################################
 # OS 別の設定
 case ${OSTYPE} in
