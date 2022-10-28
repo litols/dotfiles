@@ -63,7 +63,11 @@ zinit light Aloxaf/fzf-tab
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
 
-zinit snippet OMZP::git
+# OMZP::gitはstarshipがないときだけ
+if type starship &>/dev/null; then
+    zinit snippet OMZP::git
+fi
+
 zinit wait lucid atload"zicompinit; zicdreplay" blockf for zsh-users/zsh-completions
 
 #######################################
