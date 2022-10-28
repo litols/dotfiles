@@ -84,6 +84,9 @@ fi
 autoload -U compinit
 compinit
 
+# zsh autosuggestionsをcompletionの情報も使ってやる
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
 ### 補完方法毎にグループ化する。
 zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' group-name ''
