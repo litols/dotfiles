@@ -241,7 +241,9 @@ export PIPENV_VENV_IN_PROJECT=true
 [[ (-f $(brew --prefix asdf)/libexec/asdf.sh)]] && eval ". $(brew --prefix asdf)/libexec/asdf.sh"
 
 # init starship
-eval "$(starship init zsh)"
+if type starship &>/dev/null; then
+    eval "$(starship init zsh)"
+fi
 
 ########################################
 # OS 別の設定
