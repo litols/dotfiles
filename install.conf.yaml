@@ -14,6 +14,8 @@
     ~/.vimrc: vim/.vimrc
     # asdf
     ~/.asdfrc: misc/asdf/.asdfrc
+    # starship
+    ~/.config/starship.toml: misc/starship/config.toml
 
 - create:
     - ~/workspace

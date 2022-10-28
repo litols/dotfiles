@@ -57,8 +57,12 @@ zinit light-mode for \
 
 ### End of Zinit's installer chunk
 
+# zinit plugins
+# 手動でインストールしたもの
+zinit light Aloxaf/fzf-tab
 zinit light zsh-users/zsh-autosuggestions
 zinit light zsh-users/zsh-syntax-highlighting
+
 zinit snippet OMZP::git
 zinit wait lucid atload"zicompinit; zicdreplay" blockf for zsh-users/zsh-completions
 
@@ -70,12 +74,18 @@ zinit wait lucid atload"zicompinit; zicdreplay" blockf for zsh-users/zsh-complet
 
 ########################################
 # 補完
+# Homebrew経由でインストールされたfunctionはsite-functionsに補完情報があるので読み出す
+# https://docs.brew.sh/Shell-Completion
+if type brew &>/dev/null; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+fi
+
 # 補完機能を有効にする
 autoload -U compinit
 compinit
 
 ### 補完方法毎にグループ化する。
-zstyle ':completion:*' format '%B%F{blue}%d%f%b'
+zstyle ':completion:*:descriptions' format '[%d]'
 zstyle ':completion:*' group-name ''
 ### 補完侯補をメニューから選択する。
 ### select=2: 補完候補を一覧から選択する。補完候補が2つ以上なければすぐに補完する。
@@ -105,8 +115,8 @@ zstyle ':completion:*' completer _complete _ignored
 ## 補完候補をキャッシュする。
 zstyle ':completion:*' use-cache yes
 zstyle ':completion:*' cache-path ~/.zsh/cache
-## 詳細な情報を使わない
-zstyle ':completion:*' verbose no
+## 詳細な情報を使う
+zstyle ':completion:*' verbose yes
 
 ## sudo の時にコマンドを探すパス
 zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin
@@ -179,10 +189,16 @@ setopt auto_menu
 #setopt extended_glob
 
 ########################################
-# キーバインド
+# キーバインド / カスタムコマンド
 
-# ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
-bindkey '^R' history-incremental-pattern-search-backward
+# "historys", ^R で履歴検索をするときに fzf検索できるようにする
+function _select-history() {
+    BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
+    CURSOR=$#BUFFER
+}
+zle -N fzf-select-history
+bindkey '^r' fzf-select-history
+alias historys='_select-history'
 
 ########################################
 # エイリアス
@@ -224,6 +240,9 @@ export PIPENV_VENV_IN_PROJECT=true
 # init asdf
 [[ (-f $(brew --prefix asdf)/libexec/asdf.sh)]] && eval ". $(brew --prefix asdf)/libexec/asdf.sh"
 
+# init starship
+eval "$(starship init zsh)"
+
 ########################################
 # OS 別の設定
 case ${OSTYPE} in
@@ -238,4 +257,3 @@ case ${OSTYPE} in
 esac
 
 # vim:set ft=zsh:
-
