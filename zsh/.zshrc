@@ -253,6 +253,11 @@ if type starship &>/dev/null; then
 fi
 
 ########################################
+# app config
+# bat: https://github.com/sharkdp/bat
+export BAT_THEME="Dracula"
+
+########################################
 # OS 別の設定
 case ${OSTYPE} in
     darwin*)
