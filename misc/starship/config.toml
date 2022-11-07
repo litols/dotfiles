@@ -18,8 +18,8 @@ $character\
 
 # 記号"❯"を記号"➜"に置き換える
 [character] # 編集するモジュールの名前は"character"
-success_symbol = "[⚫︎ ❯](bold blue)" # "success_symbol"を記号"➜"で"bold green"(太字の緑色)にセット
-error_symbol = "[⚫︎](bold dimmed blue) [❯](bold blue)" 
+success_symbol = " [❯](bold blue)[❯](bold blue)" # "success_symbol"を記号"➜"で"bold green"(太字の緑色)にセット
+error_symbol = " [❯](bold dimmed blue)[❯](bold blue)" 
 
 [directory]
 truncation_length = 100
