@@ -199,12 +199,13 @@ setopt auto_menu
 # キーバインド / カスタムコマンド
 
 # "historys", ^R で履歴検索をするときに fzf検索できるようにする
-function _select-history() {
+function _fzf-select-history() {
     BUFFER=$(history -n -r 1 | fzf --no-sort +m --query "$LBUFFER" --prompt="History > ")
     CURSOR=$#BUFFER
+    zle reset-prompt
 }
-zle -N fzf-select-history
-bindkey '^r' fzf-select-history
+zle -N _fzf-select-history
+bindkey '^r' _fzf-select-history
 alias historys='_select-history'
 
 ########################################
