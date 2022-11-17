@@ -19,6 +19,14 @@
     # gitconifg
     ~/.gitconfig: git/.gitconfig
     ~/.gitconfig_private: git/.gitconfig_private
+    # karabiner
+    ~/.config/karabiner/karabiner.json:
+        if: '[ `uname` = Darwin ]'
+        path: misc/karabiner/karabiner.json
+    # hammerspoon
+    ~/.hammerspoon/init.lua: 
+        if: '[ `uname` = Darwin ]'
+        path: misc/hammerspoon/init.lua
 
 - create:
     - ~/workspace
