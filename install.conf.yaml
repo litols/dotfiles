@@ -4,6 +4,8 @@
 
 - clean: ['~']
 
+- create:
+    - ~/.config/git
 - link:
     # zsh
     ~/.zshrc: zsh/.zshrc
@@ -19,7 +21,9 @@
     # gitconifg
     ~/.gitconfig: git/.gitconfig
     ~/.gitconfig_private: git/.gitconfig_private
+    ~/.config/git/ignore: git/.gitignore_global
     # karabiner
+    # karabiner uiでupdateするとsymlinkが外れるのでcopy必須
     ~/.config/karabiner/karabiner.json:
         if: '[ `uname` = Darwin ]'
         path: misc/karabiner/karabiner.json
