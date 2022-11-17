@@ -3,5 +3,5 @@
 ## Install
 
 ```shell
-git clone https://github.com/litols/dotfiles && cd dotfiles && ./install
+cd && git clone https://github.com/litols/dotfiles && cd dotfiles && ./install
 ```
