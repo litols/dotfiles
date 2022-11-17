@@ -16,6 +16,9 @@
     ~/.asdfrc: misc/asdf/.asdfrc
     # starship
     ~/.config/starship.toml: misc/starship/config.toml
+    # gitconifg
+    ~/.gitconfig: git/.gitconfig
+    ~/.gitconfig_private: git/.gitconfig_private
 
 - create:
     - ~/workspace
