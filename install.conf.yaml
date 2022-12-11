@@ -19,13 +19,17 @@
     # starship
     ~/.config/starship.toml: misc/starship/config.toml
     # gitconifg
-    ~/.gitconfig: git/.gitconfig
     ~/.gitconfig_private: git/.gitconfig_private
     ~/.config/git/ignore: git/.gitignore_global
 
     # ----
     # macOS
     # ----
+    # gitconfig
+    ~/.gitconfig:
+        if: '[ `uname` = Darwin ]'
+        path: git/macos/.gitconfig
+
     # karabiner
     # karabiner uiでupdateするとsymlinkが外れるのでcopy必須
     ~/.config/karabiner/karabiner.json:
@@ -38,6 +42,9 @@
     # ----
     # Linux
     # ----
+    ~/.gitconfig:
+        if: '[ `uname` = Linux ]'
+        path: git/linux/.gitconfig
     ~/Brewfile: 
         if: '[ `uname` = Linux ]'
         path: linux/linuxbrew/Brewfile

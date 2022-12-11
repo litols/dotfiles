@@ -1,0 +1,9 @@
+[core]
+	autocrlf = input
+
+[user]
+    name = litols
+    email = 3395369+litols@users.noreply.github.com
+ 
+[includeIf "gitdir:/"]
+	path = ~/.gitconfig_private

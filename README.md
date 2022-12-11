@@ -17,3 +17,6 @@ cd && git clone https://github.com/litols/dotfiles && cd dotfiles && ./install
   - Mac: from Brew
   - Win: from Chocolately
   - Linux: from Brew
+
+### Language Pack
+  - Linux: `sudo apt install -y language-pack-ja`
