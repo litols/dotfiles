@@ -29,7 +29,6 @@
     ~/.gitconfig:
         if: '[ `uname` = Darwin ]'
         path: git/macos/.gitconfig
-
     # karabiner
     # karabiner uiでupdateするとsymlinkが外れるのでcopy必須
     ~/.config/karabiner/karabiner.json:
@@ -39,6 +38,10 @@
     ~/.hammerspoon/init.lua: 
         if: '[ `uname` = Darwin ]'
         path: misc/hammerspoon/init.lua
+    # brew
+    ~/Brewfile: 
+        if: '[ `uname` = Darwin ]'
+        path: mac/homebrew/Brewfile
     # ----
     # Linux
     # ----
@@ -56,7 +59,7 @@
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
     - command: "[[ (-f ~/Brewfile)  ]] && brew bundle --file \"~/Brewfile\""
-      description: "brew bundle (for Linux)"
+      description: "brew bundle (for Linux/MacOS)"
       stdin: true
       stdout: true
       stderr: true
