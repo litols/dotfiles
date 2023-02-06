@@ -136,4 +136,4 @@ disabled = true
 
 [custom.kubectl-env]
 when = '''kubectl-is-prod'''
-format = "on [  \uf071  \u2388PRODUCTION \uf071   ](bg:purple fg:white bold) "
+format = "on [  \uf071  \u2388PRODUCTION  \uf071  ](bg:purple fg:white bold) "
