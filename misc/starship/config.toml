@@ -133,3 +133,7 @@ symbol = "🅢 "
 
 [kotlin]
 disabled = true
+
+[custom.kubectl-env]
+when = '''kubectl-is-prod'''
+format = "on [  \uf071 \u2388 PRODUCTION \uf071  ](bg:purple fg:white bold)"
