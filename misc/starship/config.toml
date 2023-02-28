@@ -40,7 +40,7 @@ format = "[$ssh_symbol](bold blue)[$hostname](red)"
 # contexts
 #
 [kubernetes]
-format = "on [\u2388 $context($namespace)](blue bold) "
+format = "on [\u2388 $context (ns:$namespace)](blue bold) "
 disabled = false
 
 [git_branch]
