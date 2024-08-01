@@ -248,6 +248,9 @@ export PIPENV_VENV_IN_PROJECT=true
 # init asdf
 [[ (-f $(brew --prefix asdf)/libexec/asdf.sh)]] && eval ". $(brew --prefix asdf)/libexec/asdf.sh"
 
+# init mise
+[[ (-d ~/.local/share/mise) ]] && eval "$(mise activate zsh)"
+
 # init starship
 if type starship &>/dev/null; then
     eval "$(starship init zsh)"
