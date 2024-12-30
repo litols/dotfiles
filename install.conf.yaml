@@ -6,6 +6,7 @@
 
 - create:
     - ~/.config/git
+    - ~/.config/ghostty
 - link:
     # zsh
     ~/.zshrc: zsh/.zshrc
@@ -42,6 +43,10 @@
     ~/Brewfile: 
         if: '[ `uname` = Darwin ]'
         path: mac/homebrew/Brewfile
+    # brew
+    ~/.config/ghostty/config: 
+        if: '[ `uname` = Darwin ]'
+        path: ghostty/config
     # ----
     # Linux
     # ----
