@@ -124,9 +124,70 @@ sudo apt install -y language-pack-ja
 - **macOS**: Karabiner-Elements, Hammerspoon, Ghostty terminal
 - **Kubernetes**: k9s configuration
 
+## Development
+
+### Linting and Formatting
+
+This repository uses various linters and formatters to ensure code quality and consistency.
+
+#### Install Tools
+
+```shell
+# macOS
+brew install shellcheck shfmt taplo stylua
+npm install -g prettier
+
+# Linux
+# shellcheck
+sudo apt-get install shellcheck
+
+# shfmt
+wget -qO- https://github.com/mvdan/sh/releases/latest/download/shfmt_v3.8.0_linux_amd64 > /tmp/shfmt
+chmod +x /tmp/shfmt
+sudo mv /tmp/shfmt /usr/local/bin/shfmt
+
+# taplo
+wget -qO- https://github.com/tamasfe/taplo/releases/latest/download/taplo-linux-x86_64.gz | gunzip > /tmp/taplo
+chmod +x /tmp/taplo
+sudo mv /tmp/taplo /usr/local/bin/taplo
+
+# stylua
+wget -qO- https://github.com/JohnnyMorganz/StyLua/releases/latest/download/stylua-linux-x86_64.zip > /tmp/stylua.zip
+unzip /tmp/stylua.zip -d /tmp
+chmod +x /tmp/stylua
+sudo mv /tmp/stylua /usr/local/bin/stylua
+
+# prettier
+npm install -g prettier
+```
+
+#### Available Make Targets
+
+```shell
+# Run all linters
+make lint
+
+# Run all formatters
+make format
+
+# Lint/format specific file types
+make lint-sh        # Lint shell scripts
+make format-sh      # Format shell scripts
+make lint-yaml      # Lint YAML files
+make format-yaml    # Format YAML files
+make format-json    # Format JSON files
+make format-toml    # Format TOML files
+make format-md      # Format Markdown files
+make format-lua     # Format Lua files
+```
+
 ## CI/CD
 
-This repository includes GitHub Actions workflows to test chezmoi configuration on both Linux and macOS, with and without work profile enabled.
+This repository includes GitHub Actions workflows to:
+
+- Test chezmoi configuration on both Linux and macOS
+- Test with and without work profile enabled
+- Enforce code formatting and linting standards
 
 ## Migration from Dotbot
 
