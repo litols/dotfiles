@@ -16,21 +16,18 @@ jobs:
         run: |
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 
-      - name: Test chezmoi init (without work profile)
+      - name: Test chezmoi init and apply (without work profile)
         run: |
           chezmoi init --source=${{ github.workspace }}
+          chezmoi apply --source=${{ github.workspace }} --dry-run --verbose
 
-      - name: Test chezmoi apply (dry-run, without work profile)
-        run: |
-          chezmoi apply --dry-run --verbose
-
-      - name: Test chezmoi apply (dry-run, with work profile)
+      - name: Test chezmoi init and apply (with work profile)
         env:
           WORK_PROFILE: "true"
         run: |
           rm -rf ~/.local/share/chezmoi
           chezmoi init --source=${{ github.workspace }}
-          chezmoi apply --dry-run --verbose
+          chezmoi apply --source=${{ github.workspace }} --dry-run --verbose
 
   test-macos:
     runs-on: macos-latest
@@ -41,18 +38,15 @@ jobs:
         run: |
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
 
-      - name: Test chezmoi init (without work profile)
+      - name: Test chezmoi init and apply (without work profile)
         run: |
           chezmoi init --source=${{ github.workspace }}
+          chezmoi apply --source=${{ github.workspace }} --dry-run --verbose
 
-      - name: Test chezmoi apply (dry-run, without work profile)
-        run: |
-          chezmoi apply --dry-run --verbose
-
-      - name: Test chezmoi apply (dry-run, with work profile)
+      - name: Test chezmoi init and apply (with work profile)
         env:
           WORK_PROFILE: "true"
         run: |
           rm -rf ~/.local/share/chezmoi
           chezmoi init --source=${{ github.workspace }}
-          chezmoi apply --dry-run --verbose
+          chezmoi apply --source=${{ github.workspace }} --dry-run --verbose
