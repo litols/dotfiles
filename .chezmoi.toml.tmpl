@@ -1,0 +1,7 @@
+{{- $workProfile := false -}}
+{{- if (env "WORK_PROFILE") -}}
+{{-   $workProfile = true -}}
+{{- end -}}
+
+[data]
+    workProfile = {{ $workProfile }}

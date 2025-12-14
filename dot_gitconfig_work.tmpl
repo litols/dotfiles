@@ -1,0 +1,19 @@
+# Work-specific git configuration
+# Set WORK_PROFILE=true environment variable to enable work-specific settings
+
+{{- if .workProfile }}
+
+# Override user name and email for work repositories
+[user]
+    # name = Your Work Name
+    # email = your.work.email@company.com
+
+# Add other work-specific git settings here
+{{- else }}
+
+# Work profile is disabled. Set WORK_PROFILE=true to enable.
+# When enabled, uncomment and customize the settings below:
+# [user]
+#     name = Your Work Name
+#     email = your.work.email@company.com
+{{- end }}
