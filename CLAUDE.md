@@ -27,13 +27,11 @@ This is a personal dotfiles repository managed with [chezmoi](https://www.chezmo
 │   │   ├── git/ignore          # Global gitignore
 │   │   ├── k9s/config.yml      # Kubernetes k9s configuration
 │   │   ├── karabiner/          # macOS-only (see naming conventions)
-│   │   ├── private_ghostty_darwin/  # macOS-only, private permissions
+│   │   ├── ghostty_darwin/     # macOS-only Ghostty terminal config
 │   ├── dot_zshrc.d/            # Additional zsh configs
 │   │   ├── .keep               # Keep directory in git
 │   │   └── work.zsh.tmpl       # Work profile configuration
 │   └── dot_hammerspoon_darwin/ # macOS-only Hammerspoon config
-└── old/                        # Original dotfiles (for reference, in .chezmoiignore)
-    ├── git/, linux/, mac/, misc/, tmux/, vim/, zsh/, ghostty/
 ```
 
 ## chezmoi Naming Conventions
@@ -55,7 +53,7 @@ chezmoi uses special prefixes and suffixes to determine file behavior:
 - `dot_config/starship.toml` → `~/.config/starship.toml`
 - `private_dot_ssh/config.tmpl` → `~/.ssh/config` (permissions: 0600, templated)
 - `dot_hammerspoon_darwin/init.lua.tmpl` → `~/.hammerspoon/init.lua` (macOS only, templated)
-- `dot_config/private_ghostty_darwin/config.tmpl` → `~/.config/ghostty/config` (macOS only, private, templated)
+- `dot_config/ghostty_darwin/config` → `~/.config/ghostty/config` (macOS only)
 
 **IMPORTANT**: Files with `_darwin` or `_linux` suffixes are already OS-specific. Do NOT wrap their contents in `{{- if eq .chezmoi.os "darwin" -}}` conditionals, as this creates redundant checks.
 
@@ -137,17 +135,13 @@ chezmoi add ~/.newconfig
 2. Use `{{ }}` for variables, `{{- }}` to trim whitespace
 3. Test with both work profile enabled and disabled
 
-### Removing legacy configs
-- Old dotbot files are in .chezmoiignore and should not be deployed
-- Before removing, ensure equivalent functionality exists in chezmoi format
-- Update README to reflect changes
+**Note**: Only use `.tmpl` extension if the file actually uses template variables. Simple static config files should not use `.tmpl`.
 
-## Files to Never Modify
+## Files Excluded from Deployment
 
-These files are kept for reference but excluded from deployment via `.chezmoiignore`:
-- `git/`, `linux/`, `mac/`, `misc/`, `tmux/`, `vim/`, `zsh/`, `ghostty/`
-- `install`, `install.conf.yaml` (old dotbot files)
-- `.github/` (CI workflows, not part of dotfiles)
+These files are excluded from deployment via `.chezmoiignore`:
+- `README.md`, `CLAUDE.md`, `MIGRATION.md` (documentation)
+- `.git/`, `.github/` (Git metadata and CI workflows)
 
 ## Troubleshooting
 
