@@ -1,0 +1,13 @@
+# Git files
+.git/
+.github/
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Dotfiles managed by chezmoi (we format the source files instead)
+# (No exclusions needed here as we're formatting source files)

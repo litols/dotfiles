@@ -4,6 +4,10 @@ MIGRATION.md
 .git/
 .github/
 mac/
+Makefile
+.prettierrc
+.prettierignore
+.stylua.toml
 
 {{- if ne .chezmoi.os "darwin" }}
 # macOS-only configurations

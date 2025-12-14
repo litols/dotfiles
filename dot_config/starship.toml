@@ -17,8 +17,10 @@ $character\
 # """
 
 # 記号"❯"を記号"➜"に置き換える
-[character] # 編集するモジュールの名前は"character"
-success_symbol = " [❯](bold blue)[❯](bold blue)" # "success_symbol"を記号"➜"で"bold green"(太字の緑色)にセット
+# 編集するモジュールの名前は"character"
+[character]
+# "success_symbol"を記号"➜"で"bold green"(太字の緑色)にセット
+success_symbol = " [❯](bold blue)[❯](bold blue)"
 error_symbol = " [❯](bold dimmed blue)[❯](bold blue)"
 
 [directory]
@@ -42,9 +44,9 @@ format = "[$ssh_symbol](bold blue)[$hostname](red)"
 [kubernetes]
 format = "on [\u2388 $context (ns:$namespace)](blue bold)$symbol "
 disabled = false
-contexts =[
-    { context_pattern = "^.+prod$", symbol = "[\ueb3a](red) [ \uf071 PRODUCTION ](bg:red fg:white)" },
-    { context_pattern = "^.+dev$", symbol = "[\ueb3a DEV](green)" },
+contexts = [
+  { context_pattern = "^.+prod$", symbol = "[\ueb3a](red) [ \uf071 PRODUCTION ](bg:red fg:white)" },
+  { context_pattern = "^.+dev$", symbol = "[\ueb3a DEV](green)" },
 ]
 
 [git_branch]

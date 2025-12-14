@@ -7,6 +7,102 @@ on:
     branches: [ main, master ]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install prettier
+        run: npm install -g prettier
+
+      - name: Install shellcheck and zsh
+        run: sudo apt-get update && sudo apt-get install -y shellcheck zsh
+
+      - name: Install shfmt
+        run: |
+          curl -fsSL https://github.com/mvdan/sh/releases/download/v3.8.0/shfmt_v3.8.0_linux_amd64 -o /tmp/shfmt
+          chmod +x /tmp/shfmt
+          sudo mv /tmp/shfmt /usr/local/bin/shfmt
+
+      - name: Install taplo
+        run: |
+          curl -fsSL https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86_64.gz | gunzip > /tmp/taplo
+          chmod +x /tmp/taplo
+          sudo mv /tmp/taplo /usr/local/bin/taplo
+
+      - name: Install stylua
+        run: |
+          curl -fsSL https://github.com/JohnnyMorganz/StyLua/releases/download/v0.20.0/stylua-linux-x86_64.zip -o /tmp/stylua.zip
+          unzip /tmp/stylua.zip -d /tmp
+          chmod +x /tmp/stylua
+          sudo mv /tmp/stylua /usr/local/bin/stylua
+
+      - name: Run shellcheck
+        run: make lint-sh
+
+      - name: Run zsh lint
+        run: make lint-zsh
+
+      - name: Check YAML formatting
+        run: make lint-yaml
+
+      - name: Check JSON formatting
+        run: |
+          JSON_FILES=$(find . -type f -name "*.json" ! -path "./.git/*")
+          if [ -n "$JSON_FILES" ]; then
+            if ! prettier --check $JSON_FILES; then
+              echo "JSON files are not formatted correctly. Run 'make format-json' to fix."
+              exit 1
+            fi
+          fi
+
+      - name: Check TOML formatting
+        run: |
+          TOML_FILES=$(find . -type f -name "*.toml" ! -path "./.git/*")
+          if [ -n "$TOML_FILES" ]; then
+            if ! taplo format --check $TOML_FILES; then
+              echo "TOML files are not formatted correctly. Run 'make format-toml' to fix."
+              exit 1
+            fi
+          fi
+
+      - name: Check Markdown formatting
+        run: |
+          MD_FILES=$(find . -type f -name "*.md" ! -path "./.git/*")
+          if [ -n "$MD_FILES" ]; then
+            if ! prettier --check $MD_FILES; then
+              echo "Markdown files are not formatted correctly. Run 'make format-md' to fix."
+              exit 1
+            fi
+          fi
+
+      - name: Check Lua formatting
+        run: |
+          LUA_FILES=$(find . -type f \( -name "*.lua" -o -name "*.lua.tmpl" \) ! -path "./.git/*")
+          if [ -n "$LUA_FILES" ]; then
+            if ! stylua --check $LUA_FILES; then
+              echo "Lua files are not formatted correctly. Run 'make format-lua' to fix."
+              exit 1
+            fi
+          fi
+
+      - name: Check shell script formatting
+        run: |
+          SHELL_FILES=$(find . -type f -name "*.sh" ! -name "*.tmpl" ! -path "./.git/*")
+          for file in $SHELL_FILES; do
+            if [ -f "$file" ]; then
+              if ! shfmt -d -i 2 -ci -bn "$file"; then
+                echo "Shell script $file is not formatted correctly. Run 'make format-sh' to fix."
+                exit 1
+              fi
+            fi
+          done
+
   test-linux:
     runs-on: ubuntu-latest
     steps:

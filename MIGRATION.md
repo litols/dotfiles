@@ -176,6 +176,7 @@ brew bundle --file ~/Brewfile
 ### Step 9: macOS-Specific Setup (macOS only)
 
 **Karabiner-Elements**
+
 ```bash
 # Karabiner config is automatically applied
 # Launch Karabiner-Elements to activate
@@ -183,6 +184,7 @@ open -a "Karabiner-Elements"
 ```
 
 **Hammerspoon**
+
 ```bash
 # Hammerspoon config is automatically applied
 # Launch Hammerspoon to activate
@@ -190,6 +192,7 @@ open -a "Hammerspoon"
 ```
 
 **Ghostty Terminal**
+
 ```bash
 # Config is at ~/.config/ghostty/config
 # Launch Ghostty to use new config
@@ -249,6 +252,7 @@ chezmoi apply
 ### Example Work Configurations
 
 **~/.zshrc.d/work.zsh**:
+
 ```bash
 # Work-specific environment
 export WORK_PROJECT_DIR=~/work
@@ -263,6 +267,7 @@ export PATH="/opt/company/bin:$PATH"
 ```
 
 **~/.gitconfig_work**:
+
 ```ini
 [user]
     name = Your Name
@@ -313,6 +318,7 @@ brew uninstall chezmoi
 **Symptoms**: Missing aliases, PATH incorrect, commands not found
 
 **Solution**:
+
 ```bash
 # Check if .zshrc was applied
 ls -la ~/.zshrc
@@ -332,6 +338,7 @@ cat ~/.zshrc | head -20
 **Symptoms**: Git asking for username/email, wrong credentials
 
 **Solution**:
+
 ```bash
 # Check git config
 git config --global --list
@@ -350,6 +357,7 @@ chezmoi apply ~/.gitconfig_private
 **Symptoms**: Work-specific settings not active
 
 **Solution**:
+
 ```bash
 # Ensure WORK_PROFILE is set
 echo $WORK_PROFILE  # Should output: true
@@ -368,6 +376,7 @@ chezmoi init --apply litols
 **Symptoms**: tmux plugins missing or not loading
 
 **Solution**:
+
 ```bash
 # Check tpm installation
 ls -la ~/.tmux/plugins/tpm
@@ -385,6 +394,7 @@ tmux source ~/.tmux.conf
 **Symptoms**: `mise: command not found` or versions not loading
 
 **Solution**:
+
 ```bash
 # Ensure mise is installed
 brew install mise
@@ -408,14 +418,14 @@ mise install
 
 ### What Changed
 
-| Aspect | Dotbot | chezmoi |
-|--------|--------|---------|
-| File management | Symlinks | File copies |
-| Templating | None (shell scripts) | Go templates |
-| OS-specific configs | Shell conditionals | File suffixes (`_darwin`, `_linux`) |
-| External deps | Git submodules | `.chezmoiexternal.toml` |
-| Work/Personal | Separate repos | Single repo with profiles |
-| Updates | `git pull && ./install` | `chezmoi update` |
+| Aspect              | Dotbot                  | chezmoi                             |
+| ------------------- | ----------------------- | ----------------------------------- |
+| File management     | Symlinks                | File copies                         |
+| Templating          | None (shell scripts)    | Go templates                        |
+| OS-specific configs | Shell conditionals      | File suffixes (`_darwin`, `_linux`) |
+| External deps       | Git submodules          | `.chezmoiexternal.toml`             |
+| Work/Personal       | Separate repos          | Single repo with profiles           |
+| Updates             | `git pull && ./install` | `chezmoi update`                    |
 
 ### What Stayed the Same
 
