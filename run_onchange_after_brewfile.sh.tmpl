@@ -1,0 +1,10 @@
+#!/bin/bash
+# Run brew bundle when Brewfile changes
+# Hash: {{ include "Brewfile.tmpl" | sha256sum }}
+
+if command -v brew &> /dev/null; then
+    if [ -f ~/Brewfile ]; then
+        echo "Running brew bundle..."
+        brew bundle --file ~/Brewfile
+    fi
+fi
