@@ -21,8 +21,9 @@ lint: lint-sh lint-yaml
 format: format-sh format-yaml format-json format-toml format-md format-lua
 
 # Shell script linting and formatting
-SHELL_FILES := $(shell find . -type f \( -name "*.sh" -o -name "*.zsh" -o -name "*.sh.tmpl" \) ! -path "./.git/*")
-ZSHRC_FILES := dot_zshrc $(shell find dot_zshrc.d -type f -name "*.zsh*" 2>/dev/null)
+# Note: .tmpl files are excluded because they contain template syntax that shellcheck/shfmt can't parse
+SHELL_FILES := $(shell find . -type f \( -name "*.sh" -o -name "*.zsh" \) ! -name "*.tmpl" ! -path "./.git/*")
+ZSHRC_FILES := dot_zshrc
 
 lint-sh:
 	@echo "Linting shell scripts..."
