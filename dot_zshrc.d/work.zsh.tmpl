@@ -1,0 +1,15 @@
+{{- if .workProfile -}}
+# Work-specific configuration
+# Add your work-specific aliases, functions, and environment variables here
+
+# Example:
+# export WORK_PROJECT_DIR=~/work
+# alias work-ssh='ssh user@work-server'
+
+# Work-specific git config
+# You can override git config for work directories by adding:
+# [includeIf "gitdir:~/work/"]
+#     path = ~/.gitconfig_work
+
+echo "Work profile loaded"
+{{ end -}}

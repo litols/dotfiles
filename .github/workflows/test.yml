@@ -1,0 +1,56 @@
+name: Test chezmoi
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: |
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+
+      - name: Test chezmoi init (without work profile)
+        run: |
+          chezmoi init --source=${{ github.workspace }}
+
+      - name: Test chezmoi apply (dry-run, without work profile)
+        run: |
+          chezmoi apply --dry-run --verbose
+
+      - name: Test chezmoi apply (dry-run, with work profile)
+        env:
+          WORK_PROFILE: "true"
+        run: |
+          chezmoi init --source=${{ github.workspace }}
+          chezmoi apply --dry-run --verbose
+
+  test-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install chezmoi
+        run: |
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+
+      - name: Test chezmoi init (without work profile)
+        run: |
+          chezmoi init --source=${{ github.workspace }}
+
+      - name: Test chezmoi apply (dry-run, without work profile)
+        run: |
+          chezmoi apply --dry-run --verbose
+
+      - name: Test chezmoi apply (dry-run, with work profile)
+        env:
+          WORK_PROFILE: "true"
+        run: |
+          chezmoi init --source=${{ github.workspace }}
+          chezmoi apply --dry-run --verbose

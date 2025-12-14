@@ -1,0 +1,16 @@
+README.md
+.git/
+.gitmodules
+dotbot/
+install
+install.conf.yaml
+git/
+linux/
+mac/
+misc/
+tmux/
+vim/
+zsh/
+ghostty/
+Brewfile_*.tmpl
+.github/
