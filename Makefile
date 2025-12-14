@@ -1,4 +1,4 @@
-.PHONY: help lint format lint-sh format-sh lint-yaml format-yaml format-json format-toml format-md format-lua
+.PHONY: help lint format lint-sh lint-zsh format-sh lint-yaml format-yaml format-json format-toml format-md format-lua
 
 # Default target
 help:
@@ -6,6 +6,7 @@ help:
 	@echo "  make lint        - Run all linters"
 	@echo "  make format      - Run all formatters"
 	@echo "  make lint-sh     - Lint shell scripts"
+	@echo "  make lint-zsh    - Lint zsh scripts"
 	@echo "  make format-sh   - Format shell scripts"
 	@echo "  make lint-yaml   - Lint YAML files"
 	@echo "  make format-yaml - Format YAML files"
@@ -15,7 +16,7 @@ help:
 	@echo "  make format-lua  - Format Lua files"
 
 # Run all linters
-lint: lint-sh lint-yaml
+lint: lint-sh lint-zsh lint-yaml
 
 # Run all formatters (check mode)
 format: format-sh format-yaml format-json format-toml format-md format-lua
@@ -51,6 +52,24 @@ format-sh:
 		done; \
 	else \
 		echo "shfmt not found. Install with: brew install shfmt"; \
+		exit 1; \
+	fi
+
+# Zsh script linting
+# Note: .tmpl files are excluded because they contain template syntax
+ZSH_FILES := $(shell find . -type f \( -name "*.zsh" -o -name ".zshrc" -o -name "dot_zshrc" \) ! -name "*.tmpl" ! -path "./.git/*")
+
+lint-zsh:
+	@echo "Linting zsh scripts..."
+	@if command -v zsh >/dev/null 2>&1; then \
+		for file in $(ZSH_FILES); do \
+			if [ -f "$$file" ]; then \
+				echo "Checking $$file"; \
+				zsh -n "$$file" || exit 1; \
+			fi; \
+		done; \
+	else \
+		echo "zsh not found. Install with: brew install zsh"; \
 		exit 1; \
 	fi
 

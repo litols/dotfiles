@@ -172,6 +172,7 @@ make format
 
 # Lint/format specific file types
 make lint-sh        # Lint shell scripts
+make lint-zsh       # Lint zsh scripts
 make format-sh      # Format shell scripts
 make lint-yaml      # Lint YAML files
 make format-yaml    # Format YAML files

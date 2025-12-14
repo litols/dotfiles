@@ -45,6 +45,9 @@ jobs:
       - name: Run shellcheck
         run: make lint-sh
 
+      - name: Run zsh lint
+        run: make lint-zsh
+
       - name: Check YAML formatting
         run: make lint-yaml
 
