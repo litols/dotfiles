@@ -31,7 +31,7 @@ jobs:
 
       - name: Install taplo
         run: |
-          curl -fsSL https://github.com/tamasfe/taplo/releases/download/0.9.3/taplo-linux-x86_64.gz | gunzip > /tmp/taplo
+          curl -fsSL https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86_64.gz | gunzip > /tmp/taplo
           chmod +x /tmp/taplo
           sudo mv /tmp/taplo /usr/local/bin/taplo
 
