@@ -4,3 +4,10 @@ MIGRATION.md
 .git/
 .github/
 mac/
+
+{{- if ne .chezmoi.os "darwin" }}
+# macOS-only configurations
+.config/ghostty/
+.hammerspoon/
+.config/karabiner/
+{{- end }}

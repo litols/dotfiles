@@ -26,12 +26,12 @@ This is a personal dotfiles repository managed with [chezmoi](https://www.chezmo
 │   │   ├── starship.toml       # Starship prompt configuration
 │   │   ├── git/ignore          # Global gitignore
 │   │   ├── k9s/config.yml      # Kubernetes k9s configuration
-│   │   ├── karabiner.darwin/   # macOS-only Karabiner config
-│   │   ├── ghostty.darwin/     # macOS-only Ghostty terminal config
+│   │   ├── karabiner/          # macOS-only Karabiner config (ignored on non-macOS)
+│   │   ├── ghostty/            # macOS-only Ghostty terminal config (ignored on non-macOS)
 │   ├── dot_zshrc.d/            # Additional zsh configs
 │   │   ├── .keep               # Keep directory in git
 │   │   └── work.zsh.tmpl       # Work profile configuration
-│   └── dot_hammerspoon.darwin/ # macOS-only Hammerspoon config
+│   └── dot_hammerspoon/        # macOS-only Hammerspoon config (ignored on non-macOS)
 ├── mac/                        # Reference configs (not deployed by chezmoi)
 │   └── iterm/Default.json      # iTerm2 profile for manual import
 ```
@@ -49,21 +49,29 @@ chezmoi uses special prefixes and suffixes to determine file behavior:
 - `.tmpl` → Template file, processed with Go templates
 - `_darwin` → Only applied on macOS for FILES (e.g., `file_darwin` → `file`)
 - `_linux` → Only applied on Linux for FILES (e.g., `file_linux` → `file`)
-- `.darwin` → Only applied on macOS for DIRECTORIES (e.g., `dir.darwin/` → `dir/`)
-- `.linux` → Only applied on Linux for DIRECTORIES (e.g., `dir.linux/` → `dir/`)
 
 ### Examples
 - `dot_zshrc` → `~/.zshrc`
 - `dot_config/starship.toml` → `~/.config/starship.toml`
 - `private_dot_ssh/config.tmpl` → `~/.ssh/config` (permissions: 0600, templated)
-- `dot_hammerspoon.darwin/init.lua.tmpl` → `~/.hammerspoon/init.lua` (macOS only, templated)
-- `dot_config/ghostty.darwin/config` → `~/.config/ghostty/config` (macOS only)
-- `dot_config/karabiner.darwin/karabiner.json` → `~/.config/karabiner/karabiner.json` (macOS only)
+- `dot_gitconfig_darwin.tmpl` → `~/.gitconfig` (macOS only, templated)
+- `dot_config/k9s/config.yml` → `~/.config/k9s/config.yml`
 
-**IMPORTANT**:
-- For FILES, use `_darwin` or `_linux` suffix (e.g., `config_darwin`)
-- For DIRECTORIES, use `.darwin` or `.linux` suffix (e.g., `config.darwin/`)
-- Do NOT wrap OS-specific files/directories contents in `{{- if eq .chezmoi.os "darwin" -}}` conditionals, as this creates redundant checks
+**OS-Specific Handling**:
+- For **FILES**: Use `_darwin` or `_linux` suffix (e.g., `config_darwin` → `config` on macOS only)
+- For **DIRECTORIES**: Use `.chezmoiignore` with template conditions to ignore on other OSes
+
+**Example .chezmoiignore for OS-specific directories**:
+```
+{{- if ne .chezmoi.os "darwin" }}
+# macOS-only configurations
+.config/ghostty/
+.hammerspoon/
+.config/karabiner/
+{{- end }}
+```
+
+**IMPORTANT**: Do NOT wrap contents of `_darwin`/`_linux` files in OS conditionals - the file suffix already handles OS detection
 
 ## Template Variables
 
@@ -138,6 +146,11 @@ chezmoi add ~/.newconfig
 - For Linux only: Name it with `_linux` suffix (e.g., `dot_config/somefile_linux.conf`)
 - Do NOT add OS conditionals inside these files
 
+### Adding an OS-specific directory
+- Create the directory with a normal name (e.g., `dot_config/ghostty/`)
+- Add it to `.chezmoiignore` with template conditions to ignore on other OSes
+- Example: See `.chezmoiignore` for macOS-only directories like `.config/ghostty/`
+
 ### Adding a templated file
 1. Create file with `.tmpl` extension
 2. Use `{{ }}` for variables, `{{- }}` to trim whitespace
@@ -150,6 +163,8 @@ chezmoi add ~/.newconfig
 These files are excluded from deployment via `.chezmoiignore`:
 - `README.md`, `CLAUDE.md`, `MIGRATION.md` (documentation)
 - `.git/`, `.github/` (Git metadata and CI workflows)
+- `mac/` (reference configs, not deployed by chezmoi)
+- `.config/ghostty/`, `.hammerspoon/`, `.config/karabiner/` (macOS-only, conditionally ignored on non-macOS)
 
 ## Troubleshooting
 
