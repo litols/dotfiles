@@ -26,12 +26,14 @@ This is a personal dotfiles repository managed with [chezmoi](https://www.chezmo
 │   │   ├── starship.toml       # Starship prompt configuration
 │   │   ├── git/ignore          # Global gitignore
 │   │   ├── k9s/config.yml      # Kubernetes k9s configuration
-│   │   ├── karabiner/          # macOS-only (see naming conventions)
-│   │   ├── ghostty_darwin/     # macOS-only Ghostty terminal config
+│   │   ├── karabiner.darwin/   # macOS-only Karabiner config
+│   │   ├── ghostty.darwin/     # macOS-only Ghostty terminal config
 │   ├── dot_zshrc.d/            # Additional zsh configs
 │   │   ├── .keep               # Keep directory in git
 │   │   └── work.zsh.tmpl       # Work profile configuration
-│   └── dot_hammerspoon_darwin/ # macOS-only Hammerspoon config
+│   └── dot_hammerspoon.darwin/ # macOS-only Hammerspoon config
+├── mac/                        # Reference configs (not deployed by chezmoi)
+│   └── iterm/Default.json      # iTerm2 profile for manual import
 ```
 
 ## chezmoi Naming Conventions
@@ -45,17 +47,23 @@ chezmoi uses special prefixes and suffixes to determine file behavior:
 
 ### Suffixes
 - `.tmpl` → Template file, processed with Go templates
-- `_darwin` → Only applied on macOS (chezmoi.os == "darwin")
-- `_linux` → Only applied on Linux (chezmoi.os == "linux")
+- `_darwin` → Only applied on macOS for FILES (e.g., `file_darwin` → `file`)
+- `_linux` → Only applied on Linux for FILES (e.g., `file_linux` → `file`)
+- `.darwin` → Only applied on macOS for DIRECTORIES (e.g., `dir.darwin/` → `dir/`)
+- `.linux` → Only applied on Linux for DIRECTORIES (e.g., `dir.linux/` → `dir/`)
 
 ### Examples
 - `dot_zshrc` → `~/.zshrc`
 - `dot_config/starship.toml` → `~/.config/starship.toml`
 - `private_dot_ssh/config.tmpl` → `~/.ssh/config` (permissions: 0600, templated)
-- `dot_hammerspoon_darwin/init.lua.tmpl` → `~/.hammerspoon/init.lua` (macOS only, templated)
-- `dot_config/ghostty_darwin/config` → `~/.config/ghostty/config` (macOS only)
+- `dot_hammerspoon.darwin/init.lua.tmpl` → `~/.hammerspoon/init.lua` (macOS only, templated)
+- `dot_config/ghostty.darwin/config` → `~/.config/ghostty/config` (macOS only)
+- `dot_config/karabiner.darwin/karabiner.json` → `~/.config/karabiner/karabiner.json` (macOS only)
 
-**IMPORTANT**: Files with `_darwin` or `_linux` suffixes are already OS-specific. Do NOT wrap their contents in `{{- if eq .chezmoi.os "darwin" -}}` conditionals, as this creates redundant checks.
+**IMPORTANT**:
+- For FILES, use `_darwin` or `_linux` suffix (e.g., `config_darwin`)
+- For DIRECTORIES, use `.darwin` or `.linux` suffix (e.g., `config.darwin/`)
+- Do NOT wrap OS-specific files/directories contents in `{{- if eq .chezmoi.os "darwin" -}}` conditionals, as this creates redundant checks
 
 ## Template Variables
 
