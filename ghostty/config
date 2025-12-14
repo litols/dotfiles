@@ -1,8 +1,0 @@
-theme = Builtin Pastel Dark
-font-family = JetBrainsMonoNL NFM Regular
-window-padding-x = 5
-window-padding-y = 5
-window-padding-balance = true
-macos-titlebar-style = transparent
-background-opacity = 0.90
-background-blur-radius = 20
