@@ -20,8 +20,8 @@ jobs:
       - name: Install prettier
         run: npm install -g prettier
 
-      - name: Install shellcheck
-        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Install shellcheck and zsh
+        run: sudo apt-get update && sudo apt-get install -y shellcheck zsh
 
       - name: Install shfmt
         run: |
