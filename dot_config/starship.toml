@@ -42,9 +42,9 @@ format = "[$ssh_symbol](bold blue)[$hostname](red)"
 [kubernetes]
 format = "on [\u2388 $context (ns:$namespace)](blue bold)$symbol "
 disabled = false
-contexts =[
-    { context_pattern = "^.+prod$", symbol = "[\ueb3a](red) [ \uf071 PRODUCTION ](bg:red fg:white)" },
-    { context_pattern = "^.+dev$", symbol = "[\ueb3a DEV](green)" },
+contexts = [
+  { context_pattern = "^.+prod$", symbol = "[\ueb3a](red) [ \uf071 PRODUCTION ](bg:red fg:white)" },
+  { context_pattern = "^.+dev$", symbol = "[\ueb3a DEV](green)" },
 ]
 
 [git_branch]
