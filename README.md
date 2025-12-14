@@ -56,10 +56,12 @@ chezmoi init --apply git@github.com:litols/dotfiles.git
 ```
 
 This will:
+
 - Load work-specific zsh configuration from `~/.zshrc.d/work.zsh`
 - Create `~/.gitconfig_work` for work-specific git settings
 
 You can customize these files by editing:
+
 - `~/.local/share/chezmoi/dot_zshrc.d/work.zsh.tmpl`
 - `~/.local/share/chezmoi/dot_gitconfig_work.tmpl`
 

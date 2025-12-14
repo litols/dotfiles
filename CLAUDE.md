@@ -41,16 +41,19 @@ This is a personal dotfiles repository managed with [chezmoi](https://www.chezmo
 chezmoi uses special prefixes and suffixes to determine file behavior:
 
 ### Prefixes
+
 - `dot_` → Creates file/directory starting with `.` (e.g., `dot_zshrc` → `~/.zshrc`)
 - `private_` → Sets file permissions to 0600 (owner read/write only)
 - `executable_` → Makes file executable (chmod +x)
 
 ### Suffixes
+
 - `.tmpl` → Template file, processed with Go templates
 - `_darwin` → Only applied on macOS for FILES (e.g., `file_darwin` → `file`)
 - `_linux` → Only applied on Linux for FILES (e.g., `file_linux` → `file`)
 
 ### Examples
+
 - `dot_zshrc` → `~/.zshrc`
 - `dot_config/starship.toml` → `~/.config/starship.toml`
 - `private_dot_ssh/config.tmpl` → `~/.ssh/config` (permissions: 0600, templated)
@@ -58,10 +61,12 @@ chezmoi uses special prefixes and suffixes to determine file behavior:
 - `dot_config/k9s/config.yml` → `~/.config/k9s/config.yml`
 
 **OS-Specific Handling**:
+
 - For **FILES**: Use `_darwin` or `_linux` suffix (e.g., `config_darwin` → `config` on macOS only)
 - For **DIRECTORIES**: Use `.chezmoiignore` with template conditions to ignore on other OSes
 
 **Example .chezmoiignore for OS-specific directories**:
+
 ```
 {{- if ne .chezmoi.os "darwin" }}
 # macOS-only configurations
@@ -78,6 +83,7 @@ chezmoi uses special prefixes and suffixes to determine file behavior:
 Templates have access to:
 
 ### Built-in chezmoi variables
+
 - `.chezmoi.os` → Operating system (darwin, linux, etc.)
 - `.chezmoi.osRelease.id` → OS distribution (ubuntu, debian, etc.)
 - `.chezmoi.arch` → Architecture (amd64, arm64, etc.)
@@ -85,9 +91,11 @@ Templates have access to:
 - `.chezmoi.username` → Current username
 
 ### Custom data variables (from .chezmoi.toml.tmpl)
+
 - `.workProfile` → Boolean, true if WORK_PROFILE env var is set
 
 ### Functions
+
 - `env "VAR_NAME"` → Get environment variable
 
 ## Work Profile Feature
@@ -95,6 +103,7 @@ Templates have access to:
 The work profile system allows users to maintain separate configurations for work without needing a separate repository.
 
 ### How it works
+
 1. User sets `WORK_PROFILE=true` environment variable before running chezmoi
 2. `.chezmoi.toml.tmpl` detects this and sets `.workProfile = true`
 3. Template files use `{{- if .workProfile }}` to conditionally include work configs
@@ -103,6 +112,7 @@ The work profile system allows users to maintain separate configurations for wor
    - `dot_gitconfig_work.tmpl` → Creates work-specific git config
 
 ### Important notes
+
 - Work profile templates must ALWAYS generate valid output, even when disabled
 - Use `{{- else }}` clauses to provide comments/documentation when disabled
 - Never leave empty files when work profile is disabled
@@ -110,6 +120,7 @@ The work profile system allows users to maintain separate configurations for wor
 ## Development Guidelines
 
 ### Making changes
+
 1. **Read before edit**: Always read files before modifying them
 2. **Test templates**: Ensure templates work with and without work profile
 3. **OS-specific files**: Use `_darwin`/`_linux` suffixes, NOT template conditionals
@@ -117,6 +128,7 @@ The work profile system allows users to maintain separate configurations for wor
 5. **Preserve existing patterns**: Match the existing code style and structure
 
 ### Testing locally
+
 ```bash
 # Test without work profile
 chezmoi init --source=/path/to/dotfiles
@@ -128,6 +140,7 @@ WORK_PROFILE=true chezmoi apply --source=/path/to/dotfiles --dry-run --verbose
 ```
 
 ### CI/CD
+
 - GitHub Actions runs on every push and PR
 - Tests both Linux (ubuntu-latest) and macOS (macos-latest)
 - Tests both with and without work profile enabled
@@ -136,22 +149,26 @@ WORK_PROFILE=true chezmoi apply --source=/path/to/dotfiles --dry-run --verbose
 ## Common Tasks
 
 ### Adding a new dotfile
+
 ```bash
 chezmoi add ~/.newconfig
 # This creates the appropriate dot_* file in the source directory
 ```
 
 ### Adding an OS-specific file
+
 - For macOS only: Name it with `_darwin` suffix (e.g., `dot_config/somefile_darwin.conf`)
 - For Linux only: Name it with `_linux` suffix (e.g., `dot_config/somefile_linux.conf`)
 - Do NOT add OS conditionals inside these files
 
 ### Adding an OS-specific directory
+
 - Create the directory with a normal name (e.g., `dot_config/ghostty/`)
 - Add it to `.chezmoiignore` with template conditions to ignore on other OSes
 - Example: See `.chezmoiignore` for macOS-only directories like `.config/ghostty/`
 
 ### Adding a templated file
+
 1. Create file with `.tmpl` extension
 2. Use `{{ }}` for variables, `{{- }}` to trim whitespace
 3. Test with both work profile enabled and disabled
@@ -161,6 +178,7 @@ chezmoi add ~/.newconfig
 ## Files Excluded from Deployment
 
 These files are excluded from deployment via `.chezmoiignore`:
+
 - `README.md`, `CLAUDE.md`, `MIGRATION.md` (documentation)
 - `.git/`, `.github/` (Git metadata and CI workflows)
 - `mac/` (reference configs, not deployed by chezmoi)
@@ -169,16 +187,19 @@ These files are excluded from deployment via `.chezmoiignore`:
 ## Troubleshooting
 
 ### CI failures
+
 1. Check that templates generate valid output (not empty files)
 2. Verify `--source` flag is used with `chezmoi apply` in CI
 3. Ensure OS-specific files don't have redundant OS checks inside
 4. Test both with and without WORK_PROFILE environment variable
 
 ### Empty files on macOS/Linux
+
 - Usually caused by double OS checking (suffix + template conditional)
 - Remove the template conditional from `_darwin`/`_linux` files
 
 ### Work profile not loading
+
 - Ensure WORK_PROFILE env var is set before running `chezmoi init`
 - Check `.chezmoi.toml.tmpl` is correctly detecting the variable
 - Verify work profile templates are using `.workProfile` (not `.work_profile`)
@@ -186,18 +207,21 @@ These files are excluded from deployment via `.chezmoiignore`:
 ## Architecture Decisions
 
 ### Why chezmoi over Dotbot?
+
 - Better cross-platform support with built-in OS detection
 - Native templating without complex shell scripts
 - Active development and better documentation
 - No git submodules needed
 
 ### Why mise over asdf?
+
 - Faster performance (written in Rust)
 - Better UX with simpler configuration
 - Backward compatible with asdf `.tool-versions` files
 - More actively maintained
 
 ### Why work profile instead of separate repo?
+
 - Single source of truth for common configuration
 - Easy to switch contexts without cloning multiple repos
 - Simpler to maintain and sync changes
