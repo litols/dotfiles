@@ -6,10 +6,21 @@ Personal dotfiles managed with [chezmoi](https://www.chezmoi.io/).
 
 ### Install
 
+#### Using HTTPS (simpler, no SSH key required)
+
 ```shell
 # Install chezmoi and apply dotfiles
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply litols
 ```
+
+#### Using SSH (recommended if you have SSH keys set up)
+
+```shell
+# Install chezmoi and apply dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply git@github.com:litols/dotfiles.git
+```
+
+#### Step-by-step installation
 
 Or if you want to review changes before applying:
 
@@ -17,8 +28,11 @@ Or if you want to review changes before applying:
 # Install chezmoi
 sh -c "$(curl -fsLS get.chezmoi.io)"
 
-# Initialize from GitHub repository
+# Initialize from GitHub repository (HTTPS)
 chezmoi init litols
+
+# Or initialize using SSH
+chezmoi init git@github.com:litols/dotfiles.git
 
 # Review what would be changed
 chezmoi diff
@@ -32,8 +46,13 @@ chezmoi apply
 To enable work-specific configuration, set the `WORK_PROFILE` environment variable before running chezmoi:
 
 ```shell
+# Using HTTPS
 export WORK_PROFILE=true
 chezmoi init --apply litols
+
+# Or using SSH
+export WORK_PROFILE=true
+chezmoi init --apply git@github.com:litols/dotfiles.git
 ```
 
 This will:
