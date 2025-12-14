@@ -99,7 +99,7 @@ sudo apt install -y language-pack-ja
 - **Terminal**: tmux configuration with tpm plugins
 - **Editor**: vim configuration
 - **Git**: Global gitconfig and gitignore
-- **Tools**: asdf/mise, fzf, bat, tig, gh
+- **Tools**: mise, fzf, bat, tig, gh
 - **macOS**: Karabiner-Elements, Hammerspoon, Ghostty terminal
 - **Kubernetes**: k9s configuration
 
