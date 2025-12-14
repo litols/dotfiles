@@ -21,14 +21,15 @@ lint: lint-sh lint-yaml
 format: format-sh format-yaml format-json format-toml format-md format-lua
 
 # Shell script linting and formatting
-# Note: .tmpl files are excluded because they contain template syntax that shellcheck/shfmt can't parse
-SHELL_FILES := $(shell find . -type f \( -name "*.sh" -o -name "*.zsh" \) ! -name "*.tmpl" ! -path "./.git/*")
-ZSHRC_FILES := dot_zshrc
+# Note: .tmpl files and .zsh/.zshrc files are excluded
+# - .tmpl files contain template syntax that shellcheck/shfmt can't parse
+# - .zsh/.zshrc files use zsh-specific syntax that shellcheck doesn't support
+SHELL_FILES := $(shell find . -type f -name "*.sh" ! -name "*.tmpl" ! -path "./.git/*")
 
 lint-sh:
 	@echo "Linting shell scripts..."
 	@if command -v shellcheck >/dev/null 2>&1; then \
-		for file in $(SHELL_FILES) $(ZSHRC_FILES); do \
+		for file in $(SHELL_FILES); do \
 			if [ -f "$$file" ]; then \
 				echo "Checking $$file"; \
 				shellcheck -x "$$file" || exit 1; \
@@ -42,7 +43,7 @@ lint-sh:
 format-sh:
 	@echo "Formatting shell scripts..."
 	@if command -v shfmt >/dev/null 2>&1; then \
-		for file in $(SHELL_FILES) $(ZSHRC_FILES); do \
+		for file in $(SHELL_FILES); do \
 			if [ -f "$$file" ]; then \
 				echo "Formatting $$file"; \
 				shfmt -i 2 -ci -bn -w "$$file"; \
