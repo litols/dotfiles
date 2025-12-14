@@ -1,9 +1,0 @@
-k9s:
-  refreshRate: 2
-  maxConnRetry: 5
-  enableMouse: true
-  headless: false
-  logoless: false
-  crumbsless: false
-  readOnly: true
-  noIcons: false

@@ -1,15 +1,13 @@
 README.md
 CLAUDE.md
+MIGRATION.md
 .git/
-.gitmodules
-dotbot/
-install
-install.conf.yaml
-git/
-linux/
+.github/
 mac/
-misc/
-tmux/
-vim/
-zsh/
-ghostty/
+
+{{- if ne .chezmoi.os "darwin" }}
+# macOS-only configurations
+.config/ghostty/
+.hammerspoon/
+.config/karabiner/
+{{- end }}
