@@ -5,9 +5,3 @@
 
 [data]
     workProfile = {{ $workProfile }}
-
-{{- if eq .chezmoi.os "darwin" }}
-    os = "macos"
-{{- else if eq .chezmoi.os "linux" }}
-    os = "linux"
-{{- end }}

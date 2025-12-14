@@ -12,5 +12,3 @@ tmux/
 vim/
 zsh/
 ghostty/
-Brewfile_*.tmpl
-.github/

@@ -28,6 +28,7 @@ jobs:
         env:
           WORK_PROFILE: "true"
         run: |
+          rm -rf ~/.local/share/chezmoi
           chezmoi init --source=${{ github.workspace }}
           chezmoi apply --dry-run --verbose
 
@@ -52,5 +53,6 @@ jobs:
         env:
           WORK_PROFILE: "true"
         run: |
+          rm -rf ~/.local/share/chezmoi
           chezmoi init --source=${{ github.workspace }}
           chezmoi apply --dry-run --verbose
