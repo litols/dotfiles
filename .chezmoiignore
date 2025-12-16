@@ -15,3 +15,10 @@ Makefile
 .hammerspoon/
 .config/karabiner/
 {{- end }}
+
+{{- if eq .workProfile true }}
+# work profile overwrite these file
+.gitconfig
+Brewfile
+.zshrc.d/work.zsh
+{{- end}}
