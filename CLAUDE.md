@@ -126,6 +126,7 @@ The work profile system allows users to maintain separate configurations for wor
 3. **OS-specific files**: Use `_darwin`/`_linux` suffixes, NOT template conditionals
 4. **Don't over-engineer**: Keep solutions simple and focused on the requested change
 5. **Preserve existing patterns**: Match the existing code style and structure
+6. **Format and lint after changes**: After editing any files, ALWAYS run `make format` to format the files, then run `make lint` to check for issues. Fix any errors before completing the task.
 
 ### Testing locally
 
