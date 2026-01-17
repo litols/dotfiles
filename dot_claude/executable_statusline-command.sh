@@ -28,8 +28,9 @@ abbreviate_path() {
       # Last component (current directory) - keep full name
       result+="${parts[$i]}"
     elif [ "${parts[$i]}" = "~" ]; then
-      # Keep tilde as-is
-      result+="~/"
+      # Keep tilde literal (already in path from home replacement)
+      # shellcheck disable=SC2088
+      result+='~/'
     elif [ -n "${parts[$i]}" ]; then
       # Abbreviate to first character
       result+="${parts[$i]:0:1}/"
