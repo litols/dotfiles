@@ -131,13 +131,13 @@ line1=""
 # Directory (bold green with folder icon)
 line1+=$(printf "\033[1;32m%s %s\033[0m" "$ICON_FOLDER" "$abbrev_path")
 
-# Git branch (with branch symbol in blue)
+# Git branch (with branch symbol in purple/magenta)
 if [ -n "$git_branch" ]; then
-    line1+=$(printf "  \033[34m%s %s%s\033[0m" "$ICON_GIT" "$git_branch" "$git_status_indicators")
+    line1+=$(printf "  \033[35m%s %s%s\033[0m" "$ICON_GIT" "$git_branch" "$git_status_indicators")
 fi
 
-# Model display name (purple/magenta with robot icon)
-line1+=$(printf "  \033[35m%s  %s\033[0m" "$ICON_ROBOT" "$model_display")
+# Model display name (blue with robot icon)
+line1+=$(printf "  \033[34m%s  %s\033[0m" "$ICON_ROBOT" "$model_display")
 
 # Context window (color based on usage percentage)
 # Green (<50%), Yellow (50-80%), Red (>80%)
