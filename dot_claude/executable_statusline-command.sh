@@ -29,7 +29,7 @@ abbreviate_path() {
       result+="${parts[$i]}"
     elif [ "${parts[$i]}" = "~" ]; then
       # Keep tilde as-is
-      result+="$HOME/"
+      result+="~/"
     elif [ -n "${parts[$i]}" ]; then
       # Abbreviate to first character
       result+="${parts[$i]:0:1}/"
