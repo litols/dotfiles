@@ -100,13 +100,12 @@ fi
 
 # Calculate context window usage
 total_tokens=$((total_input + total_output))
-remaining_tokens=$((context_size - total_tokens))
 
 # Format context window display (with 2 decimal places)
 if [ -n "$used_pct" ] && [ "$used_pct" != "null" ]; then
   total_k=$(awk "BEGIN {printf \"%.2f\", $total_tokens / 1000}")
-  remaining_k=$(awk "BEGIN {printf \"%.2f\", $remaining_tokens / 1000}")
-  context_display=$(printf "%sk/%sk(%.0f%%)" "$total_k" "$remaining_k" "$used_pct")
+  context_size_k=$(awk "BEGIN {printf \"%.2f\", $context_size / 1000}")
+  context_display=$(printf "%sk/%sk(%.0f%%)" "$total_k" "$context_size_k" "$used_pct")
 else
   context_size_k=$(awk "BEGIN {printf \"%.2f\", $context_size / 1000}")
   context_display="0.00k/${context_size_k}k(0%)"
