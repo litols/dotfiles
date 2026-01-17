@@ -7,10 +7,8 @@ input=$(cat)
 cwd=$(echo "$input" | jq -r '.workspace.current_dir')
 transcript_path=$(echo "$input" | jq -r '.transcript_path')
 model_display=$(echo "$input" | jq -r '.model.display_name')
-total_input=$(echo "$input" | jq -r '.context_window.total_input_tokens')
-total_output=$(echo "$input" | jq -r '.context_window.total_output_tokens')
 context_size=$(echo "$input" | jq -r '.context_window.context_window_size')
-used_pct=$(echo "$input" | jq -r '.context_window.used_percentage // empty')
+current_usage=$(echo "$input" | jq '.context_window.current_usage')
 
 # Function to abbreviate directory path (all but current directory to 1 char)
 abbreviate_path() {
@@ -26,13 +24,12 @@ abbreviate_path() {
   local last_idx=$((${#parts[@]} - 1))
 
   for i in "${!parts[@]}"; do
-    if [ "$i" -eq "$last_idx" ]; then
+    if [ "$i" -eq $last_idx ]; then
       # Last component (current directory) - keep full name
       result+="${parts[$i]}"
     elif [ "${parts[$i]}" = "~" ]; then
-      # Keep tilde as-is (literal string, not expansion)
-      # shellcheck disable=SC2088
-      result+='~/'
+      # Keep tilde as-is
+      result+="$HOME/"
     elif [ -n "${parts[$i]}" ]; then
       # Abbreviate to first character
       result+="${parts[$i]:0:1}/"
@@ -99,22 +96,31 @@ if [ -d "$cwd/.git" ] || git -C "$cwd" rev-parse --git-dir >/dev/null 2>&1; then
 fi
 
 # Calculate context window usage
-total_tokens=$((total_input + total_output))
+if [ "$current_usage" != "null" ]; then
+  # Calculate current context from current_usage fields
+  current_tokens=$(echo "$current_usage" | jq '.input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens')
+  used_pct=$((current_tokens * 100 / context_size))
 
-# Format context window display (with 2 decimal places)
-if [ -n "$used_pct" ] && [ "$used_pct" != "null" ]; then
-  total_k=$(awk "BEGIN {printf \"%.2f\", $total_tokens / 1000}")
+  # Format context window display (with 2 decimal places)
+  total_k=$(awk "BEGIN {printf \"%.2f\", $current_tokens / 1000}")
   context_size_k=$(awk "BEGIN {printf \"%.2f\", $context_size / 1000}")
-  context_display=$(printf "%sk/%sk(%.0f%%)" "$total_k" "$context_size_k" "$used_pct")
+  context_display=$(printf "%sk/%sk(%d%%)" "$total_k" "$context_size_k" "$used_pct")
 else
+  used_pct=0
   context_size_k=$(awk "BEGIN {printf \"%.2f\", $context_size / 1000}")
   context_display="0.00k/${context_size_k}k(0%)"
 fi
 
-# Get transcript summary (find entry with type: summary)
+# Get transcript summary (find first entry with type: summary)
 transcript_summary=""
 if [ -f "$transcript_path" ]; then
-  transcript_summary=$(jq -r 'select(.type == "summary") | .text // .content // empty' "$transcript_path" 2>/dev/null | head -n 1 | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
+  while IFS= read -r line; do
+    result=$(echo "$line" | jq -r 'select(.type == "summary") | .summary // empty' 2>/dev/null)
+    if [ -n "$result" ]; then
+      transcript_summary="$result"
+      break
+    fi
+  done <"$transcript_path"
 fi
 
 # Nerd Font icons (using printf for all icons for consistency)
@@ -142,20 +148,17 @@ line1+=$(printf "  \033[34m%s  %s\033[0m" "$ICON_ROBOT" "$model_display")
 # Context window (color based on usage percentage)
 # Green (<50%), Yellow (50-80%), Red (>80%)
 context_color="\033[32m" # default green
-if [ -n "$used_pct" ] && [ "$used_pct" != "null" ]; then
-  used_pct_int=$(printf "%.0f" "$used_pct")
-  if [ "$used_pct_int" -ge 80 ]; then
-    context_color="\033[31m" # red
-  elif [ "$used_pct_int" -ge 50 ]; then
-    context_color="\033[33m" # yellow
-  fi
+if [ "$used_pct" -ge 80 ]; then
+  context_color="\033[31m" # red
+elif [ "$used_pct" -ge 50 ]; then
+  context_color="\033[33m" # yellow
 fi
 line1+=$(printf "  ${context_color}%s %s\033[0m" "$ICON_MEMORY" "$context_display")
 
-# Line 2: transcript summary (dimmed with document icon)
+# Line 2: transcript summary (cyan with document icon)
 line2=""
 if [ -n "$transcript_summary" ]; then
-  line2=$(printf "\033[2m%s %s\033[0m" "$ICON_DOC" "$transcript_summary")
+  line2=$(printf "\033[36m%s %s\033[0m" "$ICON_DOC" "$transcript_summary")
 fi
 
 # Output both lines
