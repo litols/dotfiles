@@ -1,5 +1,5 @@
 theme = Builtin Pastel Dark
-font-family = JetBrainsMonoNL NFM Regular
+font-family = "JetBrainsMonoNL Nerd Font Mono"
 window-padding-x = 5
 window-padding-y = 5
 window-padding-balance = true
