@@ -210,13 +210,17 @@ alias historys='_select-history'
 
 ########################################
 # エイリアス
-
+# ~/.zshrc
 alias la='ls -a'
 alias ll='ls -l'
 
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
+# このaliasはclaude codeでは向こうにする
+# https://code.claude.com/docs/ja/env-vars
+if [[ -o interactive && -z "$CLAUDECODE" && -z "$CLAUDE_CODE_CHILD_SESSION" ]]; then
+    alias rm='rm -i'
+    alias cp='cp -i'
+    alias mv='mv -i'
+fi
 
 alias mkdir='mkdir -p'
 
