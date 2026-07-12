@@ -7,6 +7,13 @@ split_pane_down = ["prefix+-", "prefix+minus"]
 key = "cmd+r"
 type = "plugin_action"
 command = "persiyanov.reviewr.toggle"
+description = "review this directory"
+
+[[keys.command]]
+key = "prefix+m"
+type = "plugin_action"
+command = "osamahbeig.pane-mover.open"
+description = "move this pane"
 
 [terminal]
 new_cwd = "follow"
