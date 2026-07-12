@@ -1,0 +1,18 @@
+[keys]
+prefix = "ctrl+a"
+split_pane_right = ["prefix+|", "prefix+v"]
+split_pane_down = ["prefix+-", "prefix+minus"]
+
+[terminal]
+new_cwd = "follow"
+
+[ui]
+mouse_capture = true
+pane_borders = true
+
+[theme]
+name = "one-dark"
+
+auto_switch = false
+[ui.toast]
+delivery = "terminal"
