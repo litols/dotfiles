@@ -3,16 +3,22 @@ prefix = "ctrl+a"
 split_pane_right = ["prefix+|", "prefix+v"]
 split_pane_down = ["prefix+-", "prefix+minus"]
 
+[[keys.command]]
+key = "cmd+r"
+type = "plugin_action"
+command = "persiyanov.reviewr.toggle"
+
 [terminal]
 new_cwd = "follow"
 
 [ui]
 mouse_capture = true
 pane_borders = true
+agent_panel_sort = "spaces"
 
 [theme]
 name = "one-dark"
-
 auto_switch = false
+
 [ui.toast]
 delivery = "terminal"
